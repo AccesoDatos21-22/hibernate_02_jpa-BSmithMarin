@@ -21,7 +21,6 @@ public class Profesor implements Serializable {
     private String ape2;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private Direccion direccion;
 
     public Profesor(){}
@@ -45,7 +44,7 @@ public class Profesor implements Serializable {
                 '}';
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

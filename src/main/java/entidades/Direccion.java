@@ -76,7 +76,7 @@ public class Direccion implements Serializable {
         this.numero = numero;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
