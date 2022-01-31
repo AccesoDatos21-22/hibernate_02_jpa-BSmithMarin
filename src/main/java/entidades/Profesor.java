@@ -2,7 +2,9 @@ package entidades;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "profesor",
@@ -26,9 +28,15 @@ public class Profesor implements Serializable {
     @JoinColumn(name = "dir_id", foreignKey = @ForeignKey(name = "DIRECCION_ID_FK"))
     private Direccion direccion;
 
-    @ManyToOne
-    @JoinColumn(name = "MODULO_ID",foreignKey = @ForeignKey(name = "MODULO_ID_FK"))
-    private Modulo modulo;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="profesor_modulo",
+            joinColumns={@JoinColumn(name="id_profesor")},
+            inverseJoinColumns={@JoinColumn(name="id_modulo")})
+    private Set<Modulo> modulos = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_profesor")
+    private List<Correo> correos;
 
     public Profesor(){}
 
@@ -48,7 +56,6 @@ public class Profesor implements Serializable {
                 ", ape1='" + ape1 + '\'' +
                 ", ape2='" + ape2 + '\'' +
                 ", direccion=" + direccion +
-                ", modulo=" + modulo +
                 '}';
     }
 
@@ -92,11 +99,19 @@ public class Profesor implements Serializable {
         this.direccion = direccion;
     }
 
-    public Modulo getModulo() {
-        return modulo;
+    public Set<Modulo> getModulos() {
+        return modulos;
     }
 
-    public void setModulo(Modulo modulo) {
-        this.modulo = modulo;
+    public void setModulos(Set<Modulo> modulos) {
+        this.modulos = modulos;
+    }
+
+    public List<Correo> getCorreos() {
+        return correos;
+    }
+
+    public void setCorreos(List<Correo> correos) {
+        this.correos = correos;
     }
 }

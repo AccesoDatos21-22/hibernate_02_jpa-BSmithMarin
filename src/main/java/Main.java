@@ -1,4 +1,5 @@
 
+import entidades.Correo;
 import entidades.Direccion;
 import entidades.Modulo;
 import entidades.Profesor;
@@ -8,6 +9,7 @@ import util.JPAUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.Arrays;
+import java.util.Set;
 
 public class Main {
 
@@ -19,26 +21,27 @@ public class Main {
 
         Direccion direccion1 = new Direccion("P Castellana","Madrid","Madrid",23);
         Direccion direccion2 = new Direccion("C/Magnolias","Madrid","Madrid",96);
+
         Profesor profesor1 = new Profesor("Juan","Gonzalez","Izquierdo",direccion1);
         Profesor profesor2 = new Profesor("Margarita","Robles","Martinez",direccion2);
 
+        Correo correo1 = new Correo("profesor1@gmail.com","GMAIL");
+        Correo correo2 = new Correo("profesor1_empresa@outlook.com","OUTLOOK");
+
         Modulo modulo1 = new Modulo("Sistemas Informaticos",1,6);
         Modulo modulo2 = new Modulo("Programacion II",2,12);
+
         try {
             transaction.begin();
 
+            Set<Modulo> modulos1 = profesor1.getModulos();  //Asignamos asignaturas al profesor
+            modulos1.addAll(Arrays.asList(modulo1,modulo2));
+            profesor1.setModulos(modulos1);
+
+            profesor1.setCorreos(Arrays.asList(correo1,correo2)); //Ambos correos son del profesor 1
+
             em.persist(profesor1);  //Guadado de profesor y direccion
             em.persist(profesor2);
-
-            /*modulo2.setListaProfesores(Arrays.asList(profesor1,profesor2));
-            modulo1.setListaProfesores(Arrays.asList(profesor1,profesor2));*/
-
-            em.persist(modulo1);       //ambos profesores imparten las 2 asignaturas
-            em.persist(modulo2);
-            
-            profesor1.setModulo(modulo1);
-            profesor2.setModulo(modulo2);
-
             transaction.commit();
 
         }catch (Exception e){
@@ -55,9 +58,18 @@ public class Main {
 
         try{
             Profesor profesorInsertado = em.find(Profesor.class,1);
-            Modulo moduloInsertado = em.find(Modulo.class,1);
-            System.out.println(moduloInsertado.getListaProfesores());
-            System.out.println(profesorInsertado.getDireccion());
+            Modulo moduloInsertado = em.find(Modulo.class,2);
+            Correo correoInsertado = em.find(Correo.class,1);
+
+            Thread.sleep(1500);
+            System.out.println("Profesores por modulo:");
+            System.out.println(moduloInsertado.getProfesores());
+            System.out.println("Modulos por profesor:");
+            System.out.println(profesorInsertado.getModulos());
+            System.out.println("Correos del profesor:");
+            System.out.println(profesorInsertado.getCorreos());
+            System.out.println("Profesor del correo");
+            System.out.println(correoInsertado.getProfesor());
         }catch (Exception e){
             e.printStackTrace();
         }

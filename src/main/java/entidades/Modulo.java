@@ -3,7 +3,9 @@ package entidades;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "modulo",uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
@@ -22,8 +24,8 @@ public class Modulo implements Serializable {
     @Column
     private float creditos;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "modulo")
-    List<Profesor> listaProfesores = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "modulos")
+    private Set<Profesor> profesores = new HashSet<>();
 
     public Modulo(String nombre, int curso, float creditos) {
         this.nombre = nombre;
@@ -76,11 +78,11 @@ public class Modulo implements Serializable {
         this.creditos = creditos;
     }
 
-    public List<Profesor> getListaProfesores() {
-        return listaProfesores;
+    public Set<Profesor> getProfesores() {
+        return profesores;
     }
 
-    public void setListaProfesores(List<Profesor> listaProfesores) {
-        this.listaProfesores = listaProfesores;
+    public void setProfesores(Set<Profesor> profesores) {
+        this.profesores = profesores;
     }
 }
