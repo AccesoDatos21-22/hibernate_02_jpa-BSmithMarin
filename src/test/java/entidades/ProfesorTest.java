@@ -23,13 +23,13 @@ class ProfesorTest {
             em = JPAUtil.getEntityManagerFactory().createEntityManager();
         });
 
-        direccion = new Direccion(12,
+        direccion = new Direccion(
                 "Calle Las Marmotas",
                 "Madrid",
                 "Madrid",
                 12);
 
-        profesor = new Profesor(25,
+        profesor = new Profesor(
                 "Juan Carlos",
                 "Gonzalez",
                 "Perez",
@@ -58,7 +58,7 @@ class ProfesorTest {
     @Test
     @Order(6)
     void consultarProfesor(){
-
+        //Comprueba que el objeto direccion recuperado, sea el mismo que el
         assertEquals( em.find(Profesor.class,profesor.getId()).getDireccion(), direccion );
     }
 
@@ -66,8 +66,8 @@ class ProfesorTest {
     @Order(15)
     void borrarProfesor(){
 
-    /*    assertDoesNotThrow(()->{
-            Profesor profesorBorrar = em.find(Profesor.class ,25);
+       /*assertDoesNotThrow(()->{
+            Profesor profesorBorrar = em.find(Profesor.class ,1);
             EntityTransaction tax = em.getTransaction();
             tax.begin();
             em.remove( profesorBorrar );

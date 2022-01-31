@@ -7,6 +7,7 @@
 
     <class>entidades.Profesor</class>
     <class>entidades.Direccion</class>
+    <class>entidades.Modulo</class>
 
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>

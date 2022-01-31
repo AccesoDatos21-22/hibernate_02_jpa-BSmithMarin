@@ -2,6 +2,7 @@ package entidades;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "profesor",
@@ -9,6 +10,7 @@ import java.io.Serializable;
 public class Profesor implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "nombre")
@@ -21,12 +23,17 @@ public class Profesor implements Serializable {
     private String ape2;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dir_id", foreignKey = @ForeignKey(name = "DIRECCION_ID_FK"))
     private Direccion direccion;
+
+    @ManyToOne
+    @JoinColumn(name = "MODULO_ID",foreignKey = @ForeignKey(name = "MODULO_ID_FK"))
+    private Modulo modulo;
 
     public Profesor(){}
 
-    public Profesor(int id,String nombre, String ape1, String ape2, Direccion direccion) {
-        this.id = id;
+    public Profesor(String nombre, String ape1, String ape2, Direccion direccion) {
+        //this.id = id;
         this.nombre = nombre;
         this.ape1 = ape1;
         this.ape2 = ape2;
@@ -41,6 +48,7 @@ public class Profesor implements Serializable {
                 ", ape1='" + ape1 + '\'' +
                 ", ape2='" + ape2 + '\'' +
                 ", direccion=" + direccion +
+                ", modulo=" + modulo +
                 '}';
     }
 
@@ -82,5 +90,13 @@ public class Profesor implements Serializable {
 
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
+    }
+
+    public Modulo getModulo() {
+        return modulo;
+    }
+
+    public void setModulo(Modulo modulo) {
+        this.modulo = modulo;
     }
 }

@@ -21,12 +21,13 @@ public class Direccion implements Serializable {
     private int numero;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     public Direccion(){}
 
-    public Direccion(int id ,String calle, String poblacion, String provincia, int numero) {
-        this.id = id;
+    public Direccion(String calle, String poblacion, String provincia, int numero) {
+        //this.id = id;
         this.calle = calle;
         this.poblacion = poblacion;
         this.provincia = provincia;
